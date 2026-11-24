@@ -1,0 +1,33 @@
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'scope-enum': [
+      2,
+      'always',
+      [
+        'monorepo',
+        'api',
+        'mobile',
+        'prisma',
+        'auth',
+        'users',
+        'candidates',
+        'companies',
+        'jobs',
+        'matching',
+        'swipes',
+        'matches',
+        'chat',
+        'applications',
+        'notifications',
+        'preferences',
+        'admin',
+        'files',
+        'theming',
+        'openapi',
+        'ci',
+        'docs',
+      ],
+    ],
+  },
+};

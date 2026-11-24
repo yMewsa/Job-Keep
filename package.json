@@ -1,0 +1,54 @@
+{
+  "name": "job-keep",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plataforma de recrutamento e selecao com compatibilidade explicavel e swipe.",
+  "packageManager": "pnpm@10.6.5",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev:api": "pnpm --filter @job-keep/api start:dev",
+    "build:api": "pnpm --filter @job-keep/api build",
+    "lint:api": "pnpm --filter @job-keep/api lint",
+    "test:api": "pnpm --filter @job-keep/api test",
+    "test:api:e2e": "pnpm --filter @job-keep/api test:e2e",
+    "openapi:export": "corepack pnpm --filter @job-keep/api openapi:export",
+    "openapi:dart": "node scripts/generate-dart-client.mjs",
+    "openapi:sync": "corepack pnpm openapi:export && corepack pnpm openapi:dart",
+    "prisma:generate": "pnpm --filter @job-keep/api prisma:generate",
+    "prisma:migrate": "pnpm --filter @job-keep/api prisma:migrate",
+    "prisma:seed": "pnpm --filter @job-keep/api prisma:seed",
+    "format": "prettier --write \"apps/api/**/*.{ts,json,md}\" \"docs/**/*.md\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"apps/api/**/*.{ts,json,md}\" \"docs/**/*.md\" \"scripts/**/*.mjs\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@openapitools/openapi-generator-cli": "^2.15.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "apps/api/**/*.{ts,tsx,js}": [
+      "pnpm --filter @job-keep/api exec eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "argon2",
+      "esbuild",
+      "prisma",
+      "sharp"
+    ]
+  }
+}

@@ -1,0 +1,4094 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verifica a saude da API e dependencias basicas",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/auth/register/candidate": {
+      "post": {
+        "operationId": "AuthController_registerCandidate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterCandidateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponseDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cadastra uma nova conta de candidato (RF01)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register/company": {
+      "post": {
+        "operationId": "AuthController_registerCompany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterCompanyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponseDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cadastra uma nova conta de empresa com validacao de CNPJ (RF02)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "operationId": "AuthController_verifyEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verifica e-mail com codigo OTP de 6 digitos ou token de link",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/resend-verification": {
+      "post": {
+        "operationId": "AuthController_resendVerification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailOnlyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Reenvia codigo de verificacao de e-mail (protegido contra enumeracao)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Autentica usuario e emite JWT + Refresh Token rotativo (RF03)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Renova access token rotacionando o refresh token",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Encerra a sessao atual e revoga o refresh token (RF03)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/sessions": {
+      "get": {
+        "operationId": "AuthController_listSessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SessionDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Lista dispositivos e sessoes ativas do usuario",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/sessions/{sessionId}": {
+      "delete": {
+        "operationId": "AuthController_revokeSession",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Desconecta um dispositivo especifico",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout-all": {
+      "post": {
+        "operationId": "AuthController_logoutAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Encerra todas as sessoes ativas em todos os dispositivos",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailOnlyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Solicita codigo de 6 digitos para recuperacao de senha (RF04)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Redefine a senha com codigo de 6 digitos ou token e revoga todas as sessoes (RF04)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/candidates/me": {
+      "get": {
+        "operationId": "CandidatesController_getMyProfile",
+        "parameters": [],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Retorna o perfil completo do candidato autenticado e percentual de completude",
+        "tags": [
+          "Candidates"
+        ]
+      },
+      "put": {
+        "operationId": "CandidatesController_updateMyProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCandidateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualiza dados basicos do perfil do candidato (RF05)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/preferences": {
+      "put": {
+        "operationId": "CandidatesController_updateWorkPreferences",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCandidateWorkPreferencesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualiza preferencias de trabalho e pretensao salarial do candidato",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/visibility": {
+      "put": {
+        "operationId": "CandidatesController_updateVisibility",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCandidateVisibilityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Configura o que empresas visualizam antes do match",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/experiences": {
+      "post": {
+        "operationId": "CandidatesController_addExperience",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExperienceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Adiciona experiencia profissional (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/experiences/{experienceId}": {
+      "patch": {
+        "operationId": "CandidatesController_updateExperience",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExperienceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Edita experiencia profissional (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      },
+      "delete": {
+        "operationId": "CandidatesController_deleteExperience",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove experiencia profissional (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/educations": {
+      "post": {
+        "operationId": "CandidatesController_addEducation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEducationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Adiciona formacao academica (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/educations/{educationId}": {
+      "patch": {
+        "operationId": "CandidatesController_updateEducation",
+        "parameters": [
+          {
+            "name": "educationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEducationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Edita formacao academica (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      },
+      "delete": {
+        "operationId": "CandidatesController_deleteEducation",
+        "parameters": [
+          {
+            "name": "educationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove formacao academica (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/skills": {
+      "get": {
+        "operationId": "CandidatesController_searchSkills",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Busca habilidades padronizadas para autocomplete",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/skills/suggest": {
+      "post": {
+        "operationId": "CandidatesController_suggestSkill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuggestSkillDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Sugere uma nova habilidade para o catalogo",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/skills": {
+      "post": {
+        "operationId": "CandidatesController_upsertSkill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCandidateSkillDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Adiciona ou atualiza habilidade no perfil do candidato (RF06)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/skills/{skillId}": {
+      "delete": {
+        "operationId": "CandidatesController_removeSkill",
+        "parameters": [
+          {
+            "name": "skillId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove habilidade do perfil do candidato",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/resume/presign": {
+      "post": {
+        "operationId": "CandidatesController_presignResume",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresignUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Gera URL pre-assinada para upload direto de curriculo (PDF/DOCX)",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/resume/confirm": {
+      "post": {
+        "operationId": "CandidatesController_confirmResume",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Confirma upload do curriculo validando magic bytes e tamanho real",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/resume/{resumeId}": {
+      "delete": {
+        "operationId": "CandidatesController_deleteResume",
+        "parameters": [
+          {
+            "name": "resumeId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove um curriculo enviado",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/photo/presign": {
+      "post": {
+        "operationId": "CandidatesController_presignPhoto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresignUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Gera URL pre-assinada para upload da foto de perfil",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/me/photo/confirm": {
+      "post": {
+        "operationId": "CandidatesController_confirmPhoto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Confirma upload da foto de perfil e gera miniatura",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/candidates/{candidateId}": {
+      "get": {
+        "operationId": "CandidatesController_getCandidateById",
+        "parameters": [
+          {
+            "name": "candidateId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Visualiza perfil do candidato respeitando regras de visibilidade antes do match",
+        "tags": [
+          "Candidates"
+        ]
+      }
+    },
+    "/companies/me": {
+      "get": {
+        "operationId": "CompaniesController_getMyCompany",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyProfileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Retorna o perfil da empresa do recrutador autenticado (RF07)",
+        "tags": [
+          "Companies"
+        ]
+      },
+      "patch": {
+        "operationId": "CompaniesController_updateMyCompany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyProfileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualiza perfil institucional da empresa (RF07)",
+        "tags": [
+          "Companies"
+        ]
+      },
+      "delete": {
+        "operationId": "CompaniesController_deleteMyCompany",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyActionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Desativa logicamente o perfil da empresa (RF18)",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/me/logo/presign": {
+      "post": {
+        "operationId": "CompaniesController_presignLogo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresignCompanyLogoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyLogoUploadResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Gera URL pre-assinada para upload do logo da empresa",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/me/logo/confirm": {
+      "post": {
+        "operationId": "CompaniesController_confirmLogo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmCompanyLogoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyLogoResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Confirma upload do logo da empresa",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/me/invitations": {
+      "post": {
+        "operationId": "CompaniesController_inviteMember",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteCompanyMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyInvitationResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Convida recrutador por e-mail para a empresa (somente OWNER)",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/invitations/accept": {
+      "post": {
+        "operationId": "CompaniesController_acceptInvitation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptCompanyInvitationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyMemberResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Aceita convite para atuar como recrutador da empresa",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/me/members/{memberId}": {
+      "delete": {
+        "operationId": "CompaniesController_removeMember",
+        "parameters": [
+          {
+            "name": "memberId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyActionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove membro recrutador da empresa (somente OWNER)",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/{companyId}/verification": {
+      "patch": {
+        "operationId": "CompaniesController_verifyCompany",
+        "parameters": [
+          {
+            "name": "companyId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCompanyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyProfileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Aprova ou rejeita verificacao CNPJ da empresa (ADMIN)",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/companies/{companyId}": {
+      "get": {
+        "operationId": "CompaniesController_getCompanyById",
+        "parameters": [
+          {
+            "name": "companyId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicCompanyProfileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consulta dados publicos de uma empresa",
+        "tags": [
+          "Companies"
+        ]
+      }
+    },
+    "/jobs": {
+      "get": {
+        "operationId": "JobsController_listPublicJobs",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "area",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workMode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PRESENCIAL",
+                "HIBRIDO",
+                "REMOTO"
+              ]
+            }
+          },
+          {
+            "name": "city",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "salaryMin",
+            "required": false,
+            "in": "query",
+            "description": "Valor em centavos de real",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "salaryMax",
+            "required": false,
+            "in": "query",
+            "description": "Valor em centavos de real",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPageResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Lista vagas públicas de empresas verificadas com filtros",
+        "tags": [
+          "Jobs"
+        ]
+      },
+      "post": {
+        "operationId": "JobsController_createJob",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cria uma vaga em rascunho",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/jobs/me": {
+      "get": {
+        "operationId": "JobsController_listCompanyJobs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Lista vagas da empresa do recrutador autenticado",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/jobs/moderation/queue": {
+      "get": {
+        "operationId": "JobsController_listModerationQueue",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobModerationQueueItemResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Lista vagas sinalizadas para moderação (ADMIN)",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/jobs/{jobId}": {
+      "get": {
+        "operationId": "JobsController_getPublicJob",
+        "parameters": [
+          {
+            "name": "jobId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consulta uma vaga pública",
+        "tags": [
+          "Jobs"
+        ]
+      },
+      "patch": {
+        "operationId": "JobsController_updateJob",
+        "parameters": [
+          {
+            "name": "jobId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateJobDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualiza uma vaga da empresa do recrutador",
+        "tags": [
+          "Jobs"
+        ]
+      },
+      "delete": {
+        "operationId": "JobsController_deleteJob",
+        "parameters": [
+          {
+            "name": "jobId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDeletionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Exclui logicamente; encerra e notifica se houver candidaturas ativas",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/jobs/{jobId}/status": {
+      "patch": {
+        "operationId": "JobsController_changeStatus",
+        "parameters": [
+          {
+            "name": "jobId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeJobStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Publica, pausa ou encerra uma vaga",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/jobs/{jobId}/reports": {
+      "post": {
+        "operationId": "JobsController_reportJob",
+        "parameters": [
+          {
+            "name": "jobId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobReportDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobReportResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Denuncia uma vaga para análise de moderação",
+        "tags": [
+          "Jobs"
+        ]
+      }
+    },
+    "/account/me": {
+      "get": {
+        "operationId": "UsersController_getMyAccount",
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Retorna os dados da conta autenticada e consentimentos LGPD",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/account/deactivate": {
+      "post": {
+        "operationId": "UsersController_deactivate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactivateAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta desativada com prazo de 30 dias para reativacao."
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Desativa a conta de forma reversivel por 30 dias (RF18)",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/account/reactivate": {
+      "post": {
+        "operationId": "UsersController_reactivate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReactivateAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Reativa uma conta desativada dentro da janela de 30 dias",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/account": {
+      "delete": {
+        "operationId": "UsersController_deletePermanently",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Exclui definitivamente a conta com anonimizacao LGPD (RF18 / RNF07)",
+        "tags": [
+          "Account"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Job Keep API",
+    "description": "API agnóstica ao cliente da plataforma Job Keep.",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "HealthCheckResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "service": {
+            "type": "string",
+            "example": "job-keep-api"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-11-24T18:00:00.000Z"
+          },
+          "checks": {
+            "type": "object",
+            "example": {
+              "database": "ok",
+              "redis": "disabled"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "service",
+          "timestamp",
+          "checks"
+        ]
+      },
+      "RegisterCandidateDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "SenhaForte@2026"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Ana Silva"
+          },
+          "acceptTerms": {
+            "type": "boolean",
+            "example": true,
+            "description": "Aceite obrigatorio dos Termos de Uso."
+          },
+          "acceptPrivacyPolicy": {
+            "type": "boolean",
+            "example": true,
+            "description": "Aceite obrigatorio da Politica de Privacidade (LGPD)."
+          },
+          "termsVersion": {
+            "type": "string",
+            "example": "1.0.0",
+            "default": "1.0.0"
+          },
+          "privacyPolicyVersion": {
+            "type": "string",
+            "example": "1.0.0",
+            "default": "1.0.0"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "fullName",
+          "acceptTerms",
+          "acceptPrivacyPolicy"
+        ]
+      },
+      "AuthUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "COMPANY",
+              "ADMIN"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "DEACTIVATED",
+              "SUSPENDED",
+              "DELETED"
+            ]
+          },
+          "emailVerified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "status",
+          "emailVerified"
+        ]
+      },
+      "RegisterResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Cadastro realizado. Verifique seu e-mail com o codigo enviado."
+          },
+          "user": {
+            "$ref": "#/components/schemas/AuthUserDto"
+          },
+          "devVerificationCode": {
+            "type": "string",
+            "description": "Retornado apenas em ambiente de desenvolvimento/testes quando MAIL_PROVIDER=console."
+          }
+        },
+        "required": [
+          "message",
+          "user"
+        ]
+      },
+      "ErrorDetailDto": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "example": "email"
+          },
+          "code": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "message": {
+            "type": "string",
+            "example": "Informe um e-mail valido."
+          }
+        },
+        "required": [
+          "field",
+          "code",
+          "message"
+        ]
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "errorCode": {
+            "type": "string",
+            "example": "VALIDATION_FAILED"
+          },
+          "message": {
+            "type": "string",
+            "example": "Os dados informados sao invalidos."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetailDto"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-11-24T18:00:00.000Z"
+          },
+          "path": {
+            "type": "string",
+            "example": "/api/v1/auth/login"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "req_9f42e8a0-1b2c-4d3e-8f4a-1234567890ab"
+          }
+        },
+        "required": [
+          "statusCode",
+          "errorCode",
+          "message",
+          "timestamp",
+          "path",
+          "requestId"
+        ]
+      },
+      "RegisterCompanyDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "rh@nuvempay.com.br"
+          },
+          "password": {
+            "type": "string",
+            "example": "EmpresaForte@2026"
+          },
+          "legalName": {
+            "type": "string",
+            "example": "Nuvem Paulista Tecnologia Ltda"
+          },
+          "tradeName": {
+            "type": "string",
+            "example": "NuvemPay"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "11222333000181",
+            "description": "CNPJ com 14 digitos ou formatado."
+          },
+          "sector": {
+            "type": "string",
+            "example": "Tecnologia / Fintech"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "MICRO",
+              "SMALL",
+              "MEDIUM",
+              "LARGE",
+              "ENTERPRISE"
+            ],
+            "example": "MEDIUM"
+          },
+          "acceptTerms": {
+            "type": "boolean",
+            "example": true
+          },
+          "acceptPrivacyPolicy": {
+            "type": "boolean",
+            "example": true
+          },
+          "termsVersion": {
+            "type": "string",
+            "example": "1.0.0",
+            "default": "1.0.0"
+          },
+          "privacyPolicyVersion": {
+            "type": "string",
+            "example": "1.0.0",
+            "default": "1.0.0"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "legalName",
+          "tradeName",
+          "cnpj",
+          "sector",
+          "size",
+          "acceptTerms",
+          "acceptPrivacyPolicy"
+        ]
+      },
+      "VerifyEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          },
+          "code": {
+            "type": "string",
+            "example": "482910"
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de verificacao recebido por link."
+          }
+        }
+      },
+      "MessageResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "devCode": {
+            "type": "string",
+            "description": "Retornado apenas em ambiente de desenvolvimento/testes quando MAIL_PROVIDER=console."
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "EmailOnlyDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "SenhaForte@2026"
+          },
+          "deviceName": {
+            "type": "string",
+            "example": "Pixel 8 Pro"
+          },
+          "platform": {
+            "type": "string",
+            "example": "android"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AuthTokensResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "expiresInSeconds": {
+            "type": "number",
+            "example": 900
+          },
+          "user": {
+            "$ref": "#/components/schemas/AuthUserDto"
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "expiresInSeconds",
+          "user"
+        ]
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token opaco emitido no login ou ultimo refresh."
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "LogoutDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token da sessao a revogar. Se omitido, revoga a sessao do JWT atual."
+          }
+        }
+      },
+      "SessionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "deviceName": {
+            "type": "object",
+            "nullable": true
+          },
+          "platform": {
+            "type": "object",
+            "nullable": true
+          },
+          "ipAddress": {
+            "type": "object",
+            "nullable": true
+          },
+          "lastUsedAt": {
+            "type": "object",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "expiresAt",
+          "isCurrent"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          },
+          "code": {
+            "type": "string",
+            "example": "739204"
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de recuperacao recebido por link."
+          },
+          "newPassword": {
+            "type": "string",
+            "example": "NovaSenhaForte@2026"
+          }
+        },
+        "required": [
+          "newPassword"
+        ]
+      },
+      "CandidateLinksDto": {
+        "type": "object",
+        "properties": {
+          "linkedin": {
+            "type": "string",
+            "example": "https://linkedin.com/in/ana-silva"
+          },
+          "github": {
+            "type": "string",
+            "example": "https://github.com/anasilva"
+          },
+          "portfolio": {
+            "type": "string",
+            "example": "https://anasilva.dev"
+          }
+        }
+      },
+      "UpdateCandidateProfileDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Ana Clara Silva"
+          },
+          "headline": {
+            "type": "string",
+            "example": "Engenheira de Software Backend | Node.js e TypeScript"
+          },
+          "bio": {
+            "type": "string",
+            "example": "Mais de 5 anos construindo APIs escalaveis..."
+          },
+          "city": {
+            "type": "string",
+            "example": "Sao Paulo"
+          },
+          "state": {
+            "type": "string",
+            "example": "SP"
+          },
+          "professionalArea": {
+            "type": "string",
+            "example": "Desenvolvimento Backend"
+          },
+          "links": {
+            "$ref": "#/components/schemas/CandidateLinksDto"
+          }
+        }
+      },
+      "UpdateCandidateWorkPreferencesDto": {
+        "type": "object",
+        "properties": {
+          "acceptedWorkModes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PRESENCIAL",
+                "HIBRIDO",
+                "REMOTO"
+              ]
+            }
+          },
+          "acceptedContractTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CLT",
+                "PJ",
+                "INTERNSHIP",
+                "TEMPORARY",
+                "FREELANCE"
+              ]
+            }
+          },
+          "acceptedCities": {
+            "example": [
+              "Sao Paulo",
+              "Campinas"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "acceptedStates": {
+            "example": [
+              "SP",
+              "RJ"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "areasOfInterest": {
+            "example": [
+              "Desenvolvimento Backend",
+              "Arquitetura de Software"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "salaryExpectationMin": {
+            "type": "number",
+            "example": 600000,
+            "description": "Pretensao salarial minima em centavos BRL."
+          },
+          "salaryExpectationMax": {
+            "type": "number",
+            "example": 1000000,
+            "description": "Pretensao salarial maxima em centavos BRL."
+          },
+          "availability": {
+            "type": "string",
+            "enum": [
+              "IMMEDIATE",
+              "WITHIN_15_DAYS",
+              "WITHIN_30_DAYS",
+              "NEGOTIABLE"
+            ]
+          }
+        }
+      },
+      "UpdateCandidateVisibilityDto": {
+        "type": "object",
+        "properties": {
+          "hideFullNameBeforeMatch": {
+            "type": "boolean",
+            "example": true
+          },
+          "hidePhotoBeforeMatch": {
+            "type": "boolean",
+            "example": true
+          },
+          "hideResumeBeforeMatch": {
+            "type": "boolean",
+            "example": true
+          },
+          "hideLinksBeforeMatch": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "hideFullNameBeforeMatch",
+          "hidePhotoBeforeMatch",
+          "hideResumeBeforeMatch",
+          "hideLinksBeforeMatch"
+        ]
+      },
+      "CreateExperienceDto": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "example": "Tech Brasil Ltda"
+          },
+          "title": {
+            "type": "string",
+            "example": "Desenvolvedor(a) Backend Pleno"
+          },
+          "description": {
+            "type": "string",
+            "example": "Responsavel por servicos NestJS e PostgreSQL."
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Sao Paulo, SP"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2023-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2025-05-01"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "companyName",
+          "title",
+          "startDate",
+          "isCurrent"
+        ]
+      },
+      "UpdateExperienceDto": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateEducationDto": {
+        "type": "object",
+        "properties": {
+          "institution": {
+            "type": "string",
+            "example": "Universidade de Sao Paulo"
+          },
+          "degree": {
+            "type": "string",
+            "example": "Bacharelado"
+          },
+          "fieldOfStudy": {
+            "type": "string",
+            "example": "Sistemas de Informacao"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "PAUSED"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2018-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2022-12-15"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "institution",
+          "degree",
+          "fieldOfStudy",
+          "status",
+          "startDate",
+          "isCurrent"
+        ]
+      },
+      "UpdateEducationDto": {
+        "type": "object",
+        "properties": {
+          "institution": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "string"
+          },
+          "fieldOfStudy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "PAUSED"
+            ]
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SuggestSkillDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Prisma ORM"
+          },
+          "category": {
+            "type": "string",
+            "example": "Backend"
+          }
+        },
+        "required": [
+          "name",
+          "category"
+        ]
+      },
+      "AddCandidateSkillDto": {
+        "type": "object",
+        "properties": {
+          "skillId": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "yearsOfExperience": {
+            "type": "number",
+            "example": 3
+          }
+        },
+        "required": [
+          "skillId",
+          "level",
+          "yearsOfExperience"
+        ]
+      },
+      "PresignUploadDto": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "example": "curriculo_ana_silva.pdf"
+          },
+          "mimeType": {
+            "type": "string",
+            "example": "application/pdf"
+          },
+          "sizeBytes": {
+            "type": "number",
+            "example": 245760
+          }
+        },
+        "required": [
+          "fileName",
+          "mimeType",
+          "sizeBytes"
+        ]
+      },
+      "ConfirmUploadDto": {
+        "type": "object",
+        "properties": {
+          "fileKey": {
+            "type": "string",
+            "example": "resumes/candidate-id/1700000-curriculo.pdf"
+          },
+          "originalFileName": {
+            "type": "string",
+            "example": "curriculo_ana_silva.pdf"
+          }
+        },
+        "required": [
+          "fileKey",
+          "originalFileName"
+        ]
+      },
+      "CompanyMemberUserResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "COMPANY",
+              "ADMIN"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "DEACTIVATED",
+              "SUSPENDED",
+              "DELETED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "CompanyMemberResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "companyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "RECRUITER"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/CompanyMemberUserResponseDto"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "companyId",
+          "role",
+          "createdAt"
+        ]
+      },
+      "CompanyProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "legalName": {
+            "type": "string"
+          },
+          "tradeName": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "12345678000195"
+          },
+          "sector": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "MICRO",
+              "SMALL",
+              "MEDIUM",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          },
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "logoUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "websiteUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "city": {
+            "type": "object",
+            "nullable": true
+          },
+          "state": {
+            "type": "object",
+            "nullable": true
+          },
+          "verificationStatus": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFIED",
+              "REJECTED"
+            ]
+          },
+          "verifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "verificationNotes": {
+            "type": "object",
+            "nullable": true
+          },
+          "maxActiveJobs": {
+            "type": "integer",
+            "nullable": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyMemberResponseDto"
+            }
+          },
+          "myRole": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "RECRUITER"
+            ]
+          },
+          "themeSettings": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "id",
+          "legalName",
+          "tradeName",
+          "cnpj",
+          "sector",
+          "size",
+          "verificationStatus"
+        ]
+      },
+      "UpdateCompanyProfileDto": {
+        "type": "object",
+        "properties": {
+          "tradeName": {
+            "type": "string",
+            "example": "NuvemPay Pagamentos"
+          },
+          "sector": {
+            "type": "string",
+            "example": "Fintech"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "MICRO",
+              "SMALL",
+              "MEDIUM",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "example": "Somos uma empresa focada em pagamentos digitais..."
+          },
+          "websiteUrl": {
+            "type": "string",
+            "example": "https://www.nuvempay.com.br"
+          },
+          "city": {
+            "type": "string",
+            "example": "Sao Paulo"
+          },
+          "state": {
+            "type": "string",
+            "example": "SP"
+          }
+        }
+      },
+      "CompanyActionResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "closedJobsCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "PresignCompanyLogoDto": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "example": "logo_empresa.png"
+          },
+          "mimeType": {
+            "type": "string",
+            "example": "image/png"
+          },
+          "sizeBytes": {
+            "type": "number",
+            "example": 102400
+          }
+        },
+        "required": [
+          "fileName",
+          "mimeType",
+          "sizeBytes"
+        ]
+      },
+      "CompanyLogoUploadResponseDto": {
+        "type": "object",
+        "properties": {
+          "uploadUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "fileKey": {
+            "type": "string"
+          },
+          "publicUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expiresInSeconds": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "uploadUrl",
+          "fileKey",
+          "publicUrl",
+          "expiresInSeconds"
+        ]
+      },
+      "ConfirmCompanyLogoDto": {
+        "type": "object",
+        "properties": {
+          "fileKey": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fileKey"
+        ]
+      },
+      "CompanyLogoResponseDto": {
+        "type": "object",
+        "properties": {
+          "logoUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "logoUrl"
+        ]
+      },
+      "InviteCompanyMemberDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "recrutadora@nuvempay.com.br"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "RECRUITER"
+            ]
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "CompanyInvitationResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "RECRUITER"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "expiresAt"
+        ]
+      },
+      "AcceptCompanyInvitationDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de convite recebido por e-mail."
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "VerifyCompanyDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "VERIFIED",
+              "REJECTED"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "example": "CNPJ validado na Receita Federal e dominio corporativo conferido."
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "PublicCompanyProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tradeName": {
+            "type": "string"
+          },
+          "sector": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "MICRO",
+              "SMALL",
+              "MEDIUM",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          },
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "logoUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "websiteUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "city": {
+            "type": "object",
+            "nullable": true
+          },
+          "state": {
+            "type": "object",
+            "nullable": true
+          },
+          "verificationStatus": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFIED",
+              "REJECTED"
+            ]
+          },
+          "themeSettings": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "id",
+          "tradeName",
+          "sector",
+          "size",
+          "verificationStatus"
+        ]
+      },
+      "JobSkillCatalogResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "category"
+        ]
+      },
+      "JobSkillResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skillId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requirementType": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "DESIRABLE"
+            ]
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "minimumLevel": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "ADVANCED",
+              "EXPERT"
+            ],
+            "nullable": true
+          },
+          "skill": {
+            "$ref": "#/components/schemas/JobSkillCatalogResponseDto"
+          }
+        },
+        "required": [
+          "id",
+          "skillId",
+          "requirementType",
+          "weight",
+          "skill"
+        ]
+      },
+      "CompanyJobSummaryResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tradeName": {
+            "type": "string"
+          },
+          "sector": {
+            "type": "string"
+          },
+          "logoUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "verificationStatus": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFIED",
+              "REJECTED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "tradeName",
+          "sector",
+          "verificationStatus"
+        ]
+      },
+      "JobResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "companyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "requirements": {
+            "type": "string"
+          },
+          "area": {
+            "type": "string"
+          },
+          "city": {
+            "type": "object",
+            "nullable": true
+          },
+          "state": {
+            "type": "object",
+            "nullable": true
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "salaryMin": {
+            "type": "integer",
+            "description": "Valor em centavos de real"
+          },
+          "salaryMax": {
+            "type": "integer",
+            "description": "Valor em centavos de real"
+          },
+          "benefits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "seniority": {
+            "type": "string",
+            "enum": [
+              "INTERN",
+              "JUNIOR",
+              "MID",
+              "SENIOR",
+              "LEAD",
+              "SPECIALIST"
+            ]
+          },
+          "contractType": {
+            "type": "string",
+            "enum": [
+              "CLT",
+              "PJ",
+              "INTERNSHIP",
+              "TEMPORARY",
+              "FREELANCE"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "PAUSED",
+              "CLOSED"
+            ]
+          },
+          "responseDeadlineDays": {
+            "type": "integer"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jobSkills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobSkillResponseDto"
+            }
+          },
+          "company": {
+            "$ref": "#/components/schemas/CompanyJobSummaryResponseDto"
+          }
+        },
+        "required": [
+          "id",
+          "companyId",
+          "title",
+          "description",
+          "requirements",
+          "area",
+          "workMode",
+          "salaryMin",
+          "salaryMax",
+          "benefits",
+          "seniority",
+          "contractType",
+          "status",
+          "responseDeadlineDays",
+          "createdAt",
+          "updatedAt",
+          "jobSkills"
+        ]
+      },
+      "JobPageResponseDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobResponseDto"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "limit"
+        ]
+      },
+      "JobSkillInputDto": {
+        "type": "object",
+        "properties": {
+          "skillId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requirementType": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "DESIRABLE"
+            ]
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5
+          },
+          "minimumLevel": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          }
+        },
+        "required": [
+          "skillId",
+          "requirementType",
+          "weight"
+        ]
+      },
+      "CreateJobDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Desenvolvedor(a) Backend"
+          },
+          "description": {
+            "type": "string",
+            "example": "Desenvolvimento de serviços para a plataforma."
+          },
+          "requirements": {
+            "type": "string",
+            "example": "Experiência com APIs e bancos de dados relacionais."
+          },
+          "area": {
+            "type": "string",
+            "example": "Tecnologia"
+          },
+          "city": {
+            "type": "string",
+            "example": "São Paulo"
+          },
+          "state": {
+            "type": "string",
+            "example": "SP"
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "salaryMin": {
+            "type": "integer",
+            "description": "Valor em centavos de real",
+            "example": 700000
+          },
+          "salaryMax": {
+            "type": "integer",
+            "description": "Valor em centavos de real",
+            "example": 1200000
+          },
+          "benefits": {
+            "example": [
+              "Vale-refeição",
+              "Plano de saúde"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "seniority": {
+            "type": "string",
+            "enum": [
+              "INTERN",
+              "JUNIOR",
+              "MID",
+              "SENIOR",
+              "LEAD",
+              "SPECIALIST"
+            ]
+          },
+          "contractType": {
+            "type": "string",
+            "enum": [
+              "CLT",
+              "PJ",
+              "INTERNSHIP",
+              "TEMPORARY",
+              "FREELANCE"
+            ]
+          },
+          "responseDeadlineDays": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 90,
+            "default": 14
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobSkillInputDto"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "requirements",
+          "area",
+          "workMode",
+          "salaryMin",
+          "salaryMax",
+          "benefits",
+          "seniority",
+          "contractType"
+        ]
+      },
+      "JobReportResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "FAKE_JOB",
+              "MISLEADING_SALARY",
+              "DISCRIMINATION",
+              "HARASSMENT",
+              "SPAM",
+              "OTHER"
+            ]
+          },
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "UNDER_REVIEW",
+              "RESOLVED",
+              "DISMISSED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "reason",
+          "status",
+          "createdAt"
+        ]
+      },
+      "JobModerationQueueItemResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "companyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "requirements": {
+            "type": "string"
+          },
+          "area": {
+            "type": "string"
+          },
+          "city": {
+            "type": "object",
+            "nullable": true
+          },
+          "state": {
+            "type": "object",
+            "nullable": true
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "salaryMin": {
+            "type": "integer",
+            "description": "Valor em centavos de real"
+          },
+          "salaryMax": {
+            "type": "integer",
+            "description": "Valor em centavos de real"
+          },
+          "benefits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "seniority": {
+            "type": "string",
+            "enum": [
+              "INTERN",
+              "JUNIOR",
+              "MID",
+              "SENIOR",
+              "LEAD",
+              "SPECIALIST"
+            ]
+          },
+          "contractType": {
+            "type": "string",
+            "enum": [
+              "CLT",
+              "PJ",
+              "INTERNSHIP",
+              "TEMPORARY",
+              "FREELANCE"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "PAUSED",
+              "CLOSED"
+            ]
+          },
+          "responseDeadlineDays": {
+            "type": "integer"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jobSkills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobSkillResponseDto"
+            }
+          },
+          "company": {
+            "$ref": "#/components/schemas/CompanyJobSummaryResponseDto"
+          },
+          "isSuspicious": {
+            "type": "boolean"
+          },
+          "suspiciousReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobReportResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "companyId",
+          "title",
+          "description",
+          "requirements",
+          "area",
+          "workMode",
+          "salaryMin",
+          "salaryMax",
+          "benefits",
+          "seniority",
+          "contractType",
+          "status",
+          "responseDeadlineDays",
+          "createdAt",
+          "updatedAt",
+          "jobSkills",
+          "isSuspicious",
+          "suspiciousReasons",
+          "reports"
+        ]
+      },
+      "UpdateJobDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Desenvolvedor(a) Backend"
+          },
+          "description": {
+            "type": "string",
+            "example": "Desenvolvimento de serviços para a plataforma."
+          },
+          "requirements": {
+            "type": "string",
+            "example": "Experiência com APIs e bancos de dados relacionais."
+          },
+          "area": {
+            "type": "string",
+            "example": "Tecnologia"
+          },
+          "city": {
+            "type": "string",
+            "example": "São Paulo"
+          },
+          "state": {
+            "type": "string",
+            "example": "SP"
+          },
+          "workMode": {
+            "type": "string",
+            "enum": [
+              "PRESENCIAL",
+              "HIBRIDO",
+              "REMOTO"
+            ]
+          },
+          "salaryMin": {
+            "type": "integer",
+            "description": "Valor em centavos de real",
+            "example": 700000
+          },
+          "salaryMax": {
+            "type": "integer",
+            "description": "Valor em centavos de real",
+            "example": 1200000
+          },
+          "benefits": {
+            "example": [
+              "Vale-refeição",
+              "Plano de saúde"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "seniority": {
+            "type": "string",
+            "enum": [
+              "INTERN",
+              "JUNIOR",
+              "MID",
+              "SENIOR",
+              "LEAD",
+              "SPECIALIST"
+            ]
+          },
+          "contractType": {
+            "type": "string",
+            "enum": [
+              "CLT",
+              "PJ",
+              "INTERNSHIP",
+              "TEMPORARY",
+              "FREELANCE"
+            ]
+          },
+          "responseDeadlineDays": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 90,
+            "default": 14
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobSkillInputDto"
+            }
+          }
+        }
+      },
+      "ChangeJobStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "PAUSED",
+              "CLOSED"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "JobDeletionResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "PAUSED",
+              "CLOSED"
+            ]
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "message",
+          "status"
+        ]
+      },
+      "CreateJobReportDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "FAKE_JOB",
+              "MISLEADING_SALARY",
+              "DISCRIMINATION",
+              "HARASSMENT",
+              "SPAM",
+              "OTHER"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "DeactivateAccountDto": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "example": "SenhaForte@2026"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Ja encontrei uma oportunidade no momento."
+          }
+        },
+        "required": [
+          "password"
+        ]
+      },
+      "ReactivateAccountDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "ana.silva@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "SenhaForte@2026"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "DeleteAccountDto": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "example": "SenhaForte@2026"
+          },
+          "confirmPermanentDeletion": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "password",
+          "confirmPermanentDeletion"
+        ]
+      }
+    }
+  }
+}

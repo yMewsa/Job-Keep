@@ -1,0 +1,44 @@
+# Dependencias e builds
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+
+# Variaveis de ambiente e segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.keystore
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/Pods/
+**/.symlinks/
+**/Flutter/Flutter.framework/
+**/Flutter/Flutter.podspec
+.gradle/
+local.properties
+**/app/debug/
+**/app/profile/
+**/app/release/
+
+# IDE e OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db

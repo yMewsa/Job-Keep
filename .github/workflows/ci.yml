@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  api:
+    name: Backend API (NestJS)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter @job-keep/api prisma:generate
+
+      - name: Lint API
+        run: pnpm --filter @job-keep/api lint
+
+      - name: Build API
+        run: pnpm --filter @job-keep/api build
+
+      - name: Run unit tests
+        run: pnpm --filter @job-keep/api test
+
+      - name: Run E2E tests
+        run: pnpm --filter @job-keep/api test:e2e
+
+      - name: Verify OpenAPI export
+        run: pnpm --filter @job-keep/api openapi:export
+
+  mobile:
+    name: Mobile App (Flutter)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Analyze Flutter code
+        run: flutter analyze --fatal-infos
+
+      - name: Run Flutter tests
+        run: flutter test
